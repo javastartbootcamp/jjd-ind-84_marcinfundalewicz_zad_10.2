@@ -8,23 +8,13 @@ public class AbonamentContract extends MobileOperatorContract {
     }
 
     @Override
-    public boolean possibleToSendMms() {
+    public boolean sendSms() {
         return true;
     }
 
     @Override
-    public boolean possibleToSendSms() {
+    public boolean sendMms() {
         return true;
-    }
-
-    @Override
-    public void sendSms() {
-
-    }
-
-    @Override
-    public void sendMms() {
-
     }
 
     @Override

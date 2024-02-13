@@ -19,31 +19,21 @@ public class MixContract extends CardContract {
     }
 
     @Override
-    public boolean possibleToSendMms() {
-        return remainingMms > 0 || mmsCost <= accountBalance;
-    }
-
-    @Override
-    public boolean possibleToSendSms() {
-        return remainingSms > 0 || smsCost <= accountBalance;
-    }
-
-    @Override
-    public void sendSms() {
+    public boolean sendSms() {
         if (remainingSms > 0) {
             remainingSms--;
-        } else if (accountBalance >= smsCost) {
-            accountBalance -= smsCost;
+            return true;
         }
+        return super.sendSms();
     }
 
     @Override
-    public void sendMms() {
+    public boolean sendMms() {
         if (remainingMms > 0) {
             remainingMms--;
-        } else if (accountBalance >= mmsCost) {
-            accountBalance -= mmsCost;
+            return true;
         }
+        return super.sendMms();
     }
 
     @Override
@@ -56,35 +46,17 @@ public class MixContract extends CardContract {
 
     @Override
     public int makeCall(int seconds) {
-        double secondsToCall = remainingCallMinutes * 60;
-        double secondsFromLimit;
-        double secondsFromBalance;
-        if (secondsToCall < seconds) {
-            secondsFromLimit = secondsToCall;
-            if (seconds > secondsToCall) {
-                secondsFromBalance = seconds - secondsToCall;
-            } else {
-                secondsFromBalance = 0;
-            }
-        } else {
-            secondsFromLimit = seconds;
-            secondsFromBalance = 0;
+        double remainingCallSeconds = remainingCallMinutes * 60;
+        if (remainingCallSeconds >= seconds) {
+            remainingCallMinutes -= seconds / 60.;
+            return seconds;
         }
-        if (secondsToCall >= secondsFromLimit) {
-            remainingCallMinutes -= secondsFromLimit / 60;
-        } else {
+        if (remainingCallSeconds > 0) {
+            int remainingSecondsToPay = seconds - (int) remainingCallSeconds;
             remainingCallMinutes = 0;
+            return (int) remainingCallSeconds + super.makeCall(remainingSecondsToPay);
         }
-        double costFromBalance = secondsFromBalance * callingCostPerMinute / 60;
-        if (costFromBalance <= accountBalance) {
-            accountBalance -= costFromBalance;
-        } else {
-            if (accountBalance / callingCostPerMinute < secondsFromBalance) {
-                secondsFromBalance = accountBalance / callingCostPerMinute;
-            }
-            accountBalance = 0;
-        }
-        return (int) (secondsFromLimit + secondsFromBalance);
+        return super.makeCall(seconds);
     }
 
     @Override

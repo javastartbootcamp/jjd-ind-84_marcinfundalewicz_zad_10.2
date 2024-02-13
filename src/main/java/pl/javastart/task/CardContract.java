@@ -14,23 +14,21 @@ class CardContract extends MobileOperatorContract {
     }
 
     @Override
-    public boolean possibleToSendMms() {
-        return mmsCost <= accountBalance;
+    public boolean sendSms() {
+        if (accountBalance >= smsCost) {
+            accountBalance -= smsCost;
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public boolean possibleToSendSms() {
-        return smsCost <= accountBalance;
-    }
-
-    @Override
-    public void sendSms() {
-        accountBalance -= smsCost;
-    }
-
-    @Override
-    public void sendMms() {
-        accountBalance -= mmsCost;
+    public boolean sendMms() {
+        if (accountBalance >= mmsCost) {
+            accountBalance -= mmsCost;
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -40,14 +38,14 @@ class CardContract extends MobileOperatorContract {
 
     @Override
     public int makeCall(int seconds) {
-        double leftSeconds = accountBalance / callingCostPerMinute * 60;
-        if (seconds <= leftSeconds) {
+        double secondsPossible = accountBalance / callingCostPerMinute * 60;
+        if (secondsPossible >= seconds) {
             accountBalance -= seconds * callingCostPerMinute / 60;
             return seconds;
         } else {
-            int leftSeconds2 = (int) leftSeconds;
+            int secondsPossible2 = (int) secondsPossible;
             accountBalance = 0;
-            return leftSeconds2;
+            return secondsPossible2;
         }
     }
 
