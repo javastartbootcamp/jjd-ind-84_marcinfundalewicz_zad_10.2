@@ -1,11 +1,6 @@
-package pl.javastart.task;
+package pl.javastart.task.utils;
 
-class Phone {
-    //Pytanie do zadania:
-    //w metodzie sendSms() oraz sendMms() zakomentowalem po jedna linijke koudu
-    //dlaczego odkomentowanie spowoduje podwojne naliczenie oplaty za smsa/mmsa
-    //czy w bloku if nie powinno nastapic sprawdzenie warunku, a dopiero potem poiwinienem wywolac metode, ktora
-    //spowoduje sciagniecie pieniedzy z konta ?
+public class Phone {
     private MobileOperatorContract mobileOperatorContract;
     private int smsCounter = 0;
     private int mmsCounter = 0;
@@ -18,7 +13,6 @@ class Phone {
     public void sendSms() {
         if (mobileOperatorContract.sendSms()) {
             smsCounter++;
-//            mobileOperatorContract.sendSms();
             System.out.println("SMS wysłany");
         } else {
             System.out.println("SMS niewysłany");
@@ -41,7 +35,6 @@ class Phone {
     public void sendMms() {
         if (mobileOperatorContract.sendMms()) {
             mmsCounter++;
-//            mobileOperatorContract.sendMms();
             System.out.println("MMS wysłany");
         } else {
             System.out.println("MMS niewysłany");

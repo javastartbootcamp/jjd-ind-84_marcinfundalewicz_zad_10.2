@@ -1,4 +1,4 @@
-package pl.javastart.task;
+package pl.javastart.task.utils;
 
 public class AbonamentContract extends MobileOperatorContract {
     private double abonamentPrice;
@@ -8,35 +8,35 @@ public class AbonamentContract extends MobileOperatorContract {
     }
 
     @Override
-    public boolean sendSms() {
+    boolean sendSms() {
         return true;
     }
 
     @Override
-    public boolean sendMms() {
+    boolean sendMms() {
         return true;
     }
 
     @Override
-    public int makeCall(int seconds) {
+    int makeCall(int seconds) {
         return seconds;
     }
 
     @Override
-    public String accountInfo() {
+    String accountInfo() {
         return "SMSy / MMSy / rozmowy w cenie abonamentu";
     }
 
     @Override
-    public double remainingBalance() {
+    double remainingBalance() {
         return 0;
     }
 
-    public double getAbonamentPrice() {
+    double getAbonamentPrice() {
         return abonamentPrice;
     }
 
-    public void setAbonamentPrice(double abonamentPrice) {
+    void setAbonamentPrice(double abonamentPrice) {
         this.abonamentPrice = abonamentPrice;
     }
 }

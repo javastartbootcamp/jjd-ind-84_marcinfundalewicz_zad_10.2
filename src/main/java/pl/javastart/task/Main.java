@@ -1,12 +1,15 @@
 package pl.javastart.task;
 
+import pl.javastart.task.utils.CardContract;
+import pl.javastart.task.utils.MixContract;
+import pl.javastart.task.utils.Phone;
+
 public class Main {
 
     public static void main(String[] args) {
-        //Pytanie do zadania zawarte w klasie Phone
-        Phone phone = new Phone(new CardContract(10, 0.1, 0.2, 1));
+        Phone phone = new Phone(new MixContract(1, 0.1, 0.2, 1, 5, 5, 0));
         phone.printAccountState();
-        phone.sendSms();
+        phone.call(60);
         phone.printAccountState();
         phone.sendMms();
         phone.printAccountState();

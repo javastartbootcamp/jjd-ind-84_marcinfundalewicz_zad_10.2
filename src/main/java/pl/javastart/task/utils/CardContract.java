@@ -1,6 +1,6 @@
-package pl.javastart.task;
+package pl.javastart.task.utils;
 
-class CardContract extends MobileOperatorContract {
+public class CardContract extends MobileOperatorContract {
     protected double accountBalance;
     protected double smsCost;
     protected double mmsCost;
@@ -14,7 +14,7 @@ class CardContract extends MobileOperatorContract {
     }
 
     @Override
-    public boolean sendSms() {
+    protected boolean sendSms() {
         if (accountBalance >= smsCost) {
             accountBalance -= smsCost;
             return true;
@@ -23,7 +23,7 @@ class CardContract extends MobileOperatorContract {
     }
 
     @Override
-    public boolean sendMms() {
+    protected boolean sendMms() {
         if (accountBalance >= mmsCost) {
             accountBalance -= mmsCost;
             return true;
@@ -32,12 +32,12 @@ class CardContract extends MobileOperatorContract {
     }
 
     @Override
-    public String accountInfo() {
+    protected String accountInfo() {
         return String.format("%.2f", accountBalance);
     }
 
     @Override
-    public int makeCall(int seconds) {
+    protected int makeCall(int seconds) {
         double secondsPossible = accountBalance / callingCostPerMinute * 60;
         if (secondsPossible >= seconds) {
             accountBalance -= seconds * callingCostPerMinute / 60;
@@ -50,7 +50,7 @@ class CardContract extends MobileOperatorContract {
     }
 
     @Override
-    public double remainingBalance() {
+    protected double remainingBalance() {
         return accountBalance;
     }
 }

@@ -1,25 +1,21 @@
-package pl.javastart.task;
+package pl.javastart.task.utils;
+
+import pl.javastart.task.utils.CardContract;
 
 public class MixContract extends CardContract {
-    private int smsLimit;
-    private int mmsLimit;
-    private double callLimit;
     private int remainingSms;
     private int remainingMms;
     private double remainingCallMinutes;
 
-    public MixContract(double accountBalance, double smsCost, double mmsCost, double callingCostPerMinute, int smsLimit, int mmsLimit, double callLimit) {
+    public MixContract(double accountBalance, double smsCost, double mmsCost, double callingCostPerMinute, int remainingSms, int remainingMms, double remainingCallMinutes) {
         super(accountBalance, smsCost, mmsCost, callingCostPerMinute);
-        this.smsLimit = smsLimit;
-        this.mmsLimit = mmsLimit;
-        this.callLimit = callLimit;
-        this.remainingSms = smsLimit;
-        this.remainingMms = mmsLimit;
-        this.remainingCallMinutes = callLimit;
+        this.remainingSms = remainingSms;
+        this.remainingMms = remainingMms;
+        this.remainingCallMinutes = remainingCallMinutes;
     }
 
     @Override
-    public boolean sendSms() {
+    protected boolean sendSms() {
         if (remainingSms > 0) {
             remainingSms--;
             return true;
@@ -28,7 +24,7 @@ public class MixContract extends CardContract {
     }
 
     @Override
-    public boolean sendMms() {
+    protected boolean sendMms() {
         if (remainingMms > 0) {
             remainingMms--;
             return true;
@@ -37,15 +33,12 @@ public class MixContract extends CardContract {
     }
 
     @Override
-    public String accountInfo() {
-        return "Pozostałe SMSy: " + remainingSms
-                + "\n" + "Pozostałe MMSy: " + remainingMms
-                + "\n" + "Pozostałe sekundy: " + callLimit * 60
-                + "\n" + "Pozostały stan konta: " + accountBalance + "\n";
+    protected String accountInfo() {
+        return String.format("Pozostałe SMSy: %d\nPozostałe MMSy: %d\nPozostałe sekundy: %.1f\nPozostały stan konta: %.1f zł", remainingSms, remainingMms, remainingCallMinutes * 60, accountBalance);
     }
 
     @Override
-    public int makeCall(int seconds) {
+    protected int makeCall(int seconds) {
         double remainingCallSeconds = remainingCallMinutes * 60;
         if (remainingCallSeconds >= seconds) {
             remainingCallMinutes -= seconds / 60.;
@@ -62,30 +55,6 @@ public class MixContract extends CardContract {
     @Override
     public double remainingBalance() {
         return super.remainingBalance();
-    }
-
-    public int getSmsLimit() {
-        return smsLimit;
-    }
-
-    public void setSmsLimit(int smsLimit) {
-        this.smsLimit = smsLimit;
-    }
-
-    public int getMmsLimit() {
-        return mmsLimit;
-    }
-
-    public void setMmsLimit(int mmsLimit) {
-        this.mmsLimit = mmsLimit;
-    }
-
-    public double getCallLimit() {
-        return callLimit;
-    }
-
-    public void setCallLimit(double callLimit) {
-        this.callLimit = callLimit;
     }
 
     public int getRemainingSms() {
