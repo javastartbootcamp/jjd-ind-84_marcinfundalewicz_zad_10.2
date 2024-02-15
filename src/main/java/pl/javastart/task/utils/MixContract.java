@@ -1,13 +1,12 @@
 package pl.javastart.task.utils;
 
-import pl.javastart.task.utils.CardContract;
-
 public class MixContract extends CardContract {
     private int remainingSms;
     private int remainingMms;
     private double remainingCallMinutes;
 
-    public MixContract(double accountBalance, double smsCost, double mmsCost, double callingCostPerMinute, int remainingSms, int remainingMms, double remainingCallMinutes) {
+    public MixContract(double accountBalance, double smsCost, double mmsCost, double callingCostPerMinute,
+                       int remainingSms, int remainingMms, double remainingCallMinutes) {
         super(accountBalance, smsCost, mmsCost, callingCostPerMinute);
         this.remainingSms = remainingSms;
         this.remainingMms = remainingMms;
@@ -34,7 +33,8 @@ public class MixContract extends CardContract {
 
     @Override
     protected String accountInfo() {
-        return String.format("Pozostałe SMSy: %d\nPozostałe MMSy: %d\nPozostałe sekundy: %.1f\nPozostały stan konta: %.1f zł", remainingSms, remainingMms, remainingCallMinutes * 60, accountBalance);
+        return String.format("Pozostałe SMSy: %d\nPozostałe MMSy: %d\nPozostałe sekundy: %.1f\nPozostały stan konta: %.1f zł",
+                remainingSms, remainingMms, remainingCallMinutes * 60, accountBalance);
     }
 
     @Override
